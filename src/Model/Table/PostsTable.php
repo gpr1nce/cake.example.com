@@ -7,7 +7,8 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-
+// the Text class
+use Cake\Utility\Text;
 /**
  * Posts Model
  *
@@ -91,6 +92,21 @@ class PostsTable extends Table
         return $validator;
     }
 
+
+    public function createSlug($title)
+{
+    return Text::slug(
+        strtolower(
+            substr($title, 0, 191)
+        )
+    );
+}
+    public function beforeMarshal($event, $data)
+    {
+        if (!isset($data['slug']) && !empty($data['title'])) {
+            $data['slug'] = $this->createSlug($data['title']);
+        }
+    }
     /**
      * Returns a rules checker object that will be used for validating
      * application integrity.
