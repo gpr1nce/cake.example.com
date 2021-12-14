@@ -180,12 +180,14 @@ return [
      *   your application that still emit deprecations.
      */
     'Error' => [
-        'errorLevel' => E_ALL,
+        'errorLevel' => E_ALL & ~E_USER_DEPRECATED,
         'exceptionRenderer' => ExceptionRenderer::class,
         'skipLog' => [],
         'log' => true,
         'trace' => true,
-        'ignoredDeprecationPaths' => [],
+        'ignoredDeprecationPaths' => [
+            'vendor/cakephp/cakephp/src/Routing/Route/Route.php',
+        ],
     ],
 
     /*
@@ -233,6 +235,9 @@ return [
             'host' => 'localhost',
             'port' => 25,
             'timeout' => 30,
+            // turn on for email through server
+// 'className' => MailTransport::class,
+'className' => 'Debug',
             /*
              * It is recommended to set these options through your environment or app_local.php
              */
